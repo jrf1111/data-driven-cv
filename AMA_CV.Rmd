@@ -5,15 +5,36 @@ output:
     reference_docx: CV-word-styles-reference.docx
   html_document: default
   pdf_document: default
+editor_options:
+  chunk_output_type: console
 ---
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = F, message=FALSE, warning=FALSE, results = "asis")
 library(flextable)
 library(officer)
 library(tidyverse)
 ```
 
+
+```{r update date on the template doc, echo=FALSE}
+
+template = read_docx("CV-word-styles-reference.docx")
+
+today = Sys.Date() %>% 
+	format("%B %d, %Y")
+
+template = template %>% 
+	footers_replace_all_text("Updated \\w{1,} \\d{1,}, \\d{4}",
+													 paste0("Updated ", today),
+													 only_at_cursor = FALSE)
+
+
+print(template, target = "CV-word-styles-reference.docx")
+rm(template, today)
+
+
+```
 
 
 ###### JakeRodenForeman@gmail.com | (214) 354-2285 | Fort Worth, Texas  
