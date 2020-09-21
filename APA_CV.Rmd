@@ -39,8 +39,7 @@ rm(template, today)
 
 
 ###### JakeRodenForeman@gmail.com | (214) 354-2285 | Fort Worth, Texas  
-###### Open Researcher and Contributor ID: [orcid.org/0000-0002-8338-397X](https://orcid.org/0000-0002-8338-397X)  
-###### Scopus Author ID: [57193991779](https://www.scopus.com/authid/detail.uri?authorId=57193991779) \
+###### Open Researcher and Contributor ID: [orcid.org/0000-0002-8338-397X](https://orcid.org/0000-0002-8338-397X)   \
 
 ###### Driven, innovative, and detail-oriented researcher-statistician with `r english::as.english(floor(lubridate::time_length(difftime(Sys.Date(), as.Date("2015-08-01")), "years")))` years of experience working with clinicians and administrators in the highly regulated clinical research setting.  Seeking to leverage my programming, statistical, and domain knowledge to improve patient outcomes and draw new insights while maintaining regulatory compliance.
 
