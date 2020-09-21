@@ -132,8 +132,8 @@ cbind(program, dates) %>%
 	border_remove()
 
 ```
-##### Review proposed studies for feasibility, scientific merit, ethical considerations, and regulatory compliance as a member of the institutional review board
-##### Produce descriptive statistics, visualizations, longitudinal/predictive analyses, and other reports on job market conditions, industry trends, and demographic/workforce information
+##### Review proposed studies for feasibility, scientific merit, ethical considerations, and regulatory compliance as an alternate member of the institutional review board
+##### Produce descriptive statistics, visualizations, longitudinal/predictive analyses, and other reports on student outcomes, job market conditions, industry trends, and demographic/workforce information
 ##### Work with large, complex datasets, including importing/exporting and merging from various sources, cleaning data files and maintaining historical records  \
 
 
@@ -390,7 +390,7 @@ Visual Basic code: Database clean up instructions and Excel VBA code. Contains i
 
 
 # Invited Lectures
-1. *Updates in defining major trauma, overtriage, and undertriage*. Delivered May 6, 2020 to the 22nd Annual Jacobi NYC Health and Hospitals Warren Wetzel, MD Trauma/Emergency Medicine Symposium.
+1. *Updates in defining major trauma, overtriage, and undertriage*. May 2020. 22nd Annual Jacobi NYC Health and Hospitals Warren Wetzel, MD Trauma/Emergency Medicine Symposium. Canceled due to SARS-CoV-2 Pandemic.
 2. *A crash course in statistics and applications to the results section*. Delivered on October 10, 2017 to the Trauma & Critical Care Conference of the A. Webb Roberts Center for Continuing Medical Education at Baylor Scott & White Health.  \
 
 
@@ -401,7 +401,7 @@ Visual Basic code: Database clean up instructions and Excel VBA code. Contains i
 
 # Manuscripts Under Review or In Preparation
 1.	Avoiding Cribari Gridlock 3: Comparing the reliability and validity of triage rates from the Cribari Matrix Method versus the Standardized Triage Assessment Tool.  Planned submission to *Academic Emergency Medicine*.
-
+2.	Elders Playing Like Children: Injuries from high-risk recreation among older adults in the United States, 2010 to 2016.
 
 
 
