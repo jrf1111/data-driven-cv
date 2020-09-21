@@ -1,0 +1,613 @@
+---
+always_allow_html: yes
+output:
+  word_document:
+    reference_docx: CV-word-styles-reference.docx
+  html_document: default
+  pdf_document: default
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = F, message=FALSE, warning=FALSE, results = "asis")
+library(flextable)
+library(officer)
+library(tidyverse)
+```
+
+
+
+###### JakeRodenForeman@gmail.com | (214) 354-2285 | Fort Worth, Texas  
+###### Open Researcher and Contributor ID: [orcid.org/0000-0002-8338-397X](https://orcid.org/0000-0002-8338-397X)  
+###### Scopus Author ID: [57193991779](https://www.scopus.com/authid/detail.uri?authorId=57193991779) \
+
+###### Driven, innovative, and detail-oriented researcher-statistician with `r english::as.english(floor(lubridate::time_length(difftime(Sys.Date(), as.Date("2015-08-01")), "years")))` years of experience working with clinicians and administrators in the highly regulated clinical research setting.  Seeking to leverage my programming, statistical, and domain knowledge to improve patient outcomes and draw new insights while maintaining regulatory compliance.
+
+# Education
+
+
+```{r Ohio}
+
+
+header = "Ohio University in Athens, Ohio"
+program = "PhD Program in Experimental Psychology"
+dates = "August 2018 – August 2019"
+
+cbind(program, dates) %>% 
+	as_tibble() %>% flextable() %>%
+	set_header_labels(., program = header, dates = header) %>% 
+	merge_h(., part = "header") %>%
+	# theme_box() %>%
+	align(., align = "center", part = "header") %>%
+	align(., j=1, i=1, align = "left", part = "body") %>%
+	align(., j=2, i=1, align = "right", part = "body") %>%
+	bold(., part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., width = 3.333) %>%
+	border_remove()
+
+```
+4.00 GPA; 30 credit hours completed  
+Relevant courses: • Data management • Advanced statistics for the behavioral sciences  
+• Linear regression analysis • Advanced regression analysis • Advanced research methods  \
+
+
+```{r HSC}
+
+
+header = "Hampden-Sydney College in Hampden-Sydney, Virginia"
+program = "Bachelor of Arts in Psychology"
+dates = "August 2011 – May 2015"
+
+cbind(program, dates) %>% 
+	as_tibble() %>% flextable() %>%
+	set_header_labels(., program = header, dates = header) %>% 
+	merge_h(., part = "header") %>%
+	# theme_box() %>%
+	align(., align = "center", part = "header") %>%
+	align(., j=1, i=1, align = "left", part = "body") %>%
+	align(., j=2, i=1, align = "right", part = "body") %>%
+	bold(., part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., width = 3.333) %>%
+	border_remove()
+
+```
+Graduated *magna cum laude*  
+3.56 GPA; 3.81 Major GPA  
+Dean’s List: Fall 2012, Spring 2013, Fall 2014, & Spring 2015  
+Patrick Henry Honors Scholar  
+Thesis: “Brand or generic: Priming consumer choices in their favor”  \
+
+
+
+
+
+
+
+
+
+
+
+
+# Professional Experience  
+```{r Tarrant county college}
+header = "Office of Institutional Research,\nTarrant County College District in Fort Worth, Texas"
+program = "Research Analyst"
+dates = "March 2020 – present"
+
+cbind(program, dates) %>% 
+	as_tibble() %>% flextable() %>%
+	set_header_labels(., program = header, dates = header) %>% 
+	merge_h(., part = "header") %>%
+	# theme_box() %>%
+	align(., align = "center", part = "header") %>%
+	align(., j=1, i=1, align = "left", part = "body") %>%
+	align(., j=2, i=1, align = "right", part = "body") %>%
+	bold(., part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., width = 3.333) %>%
+	border_remove()
+
+```
+##### Review proposed studies for feasibility, scientific merit, ethical considerations, and regulatory compliance as a member of the institutional review board
+##### Produce descriptive statistics, visualizations, longitudinal/predictive analyses, and other reports on job market conditions, industry trends, and demographic/workforce information
+##### Work with large, complex datasets, including importing/exporting and merging from various sources, cleaning data files and maintaining historical records  \
+
+
+
+```{r UT Tyler}
+
+
+header = "University of Texas\nHealth Science Center in Tyler, Texas"
+program = "Independent Statistical Contractor"
+dates = "March 2020 – present"
+
+cbind(program, dates) %>% 
+	as_tibble() %>% flextable() %>%
+	set_header_labels(., program = header, dates = header) %>% 
+	merge_h(., part = "header") %>%
+	# theme_box() %>%
+	align(., align = "center", part = "header") %>%
+	align(., j=1, i=1, align = "left", part = "body") %>%
+	align(., j=2, i=1, align = "right", part = "body") %>%
+	bold(., part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., width = 3.333) %>%
+	border_remove()
+
+```
+##### Clean and manage large-scale databases
+##### Review and update pre-existing syntax to correct errors and make calculations up to 30X faster
+##### Develop statistical analyses, tables, and visualizations in partnership with investigators
+##### Write methods and results sections of manuscripts and participate in peer-review editing  \
+
+
+```{r BUMC}
+header = "Baylor Scott & White Research Institute,\nDivision of Trauma, Critical Care, & Acute Care Surgery Research\nat Baylor University Medical Center in Dallas, Texas"
+
+rbind(
+	 c("Research Enrollment Analyst", "July 2016 – January 2020"),
+	 c("Clinical Research Assistant", "August 2015 – July 2016")
+) %>%
+as_tibble() %>% flextable() %>%
+	set_header_labels(., V1 = header, V2 = header) %>% 
+	merge_h(., part = "header") %>%
+	# theme_box() %>%
+	align(., align = "center", part = "header") %>%
+	align(., j=1, i=1:2, align = "left", part = "body") %>%
+	align(., j=2, i=1:2, align = "right", part = "body") %>%
+	bold(., part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., width = 3.333) %>%
+	border_remove()
+
+```
+##### Independently coordinated several research projects from conception to publication, including studies involving more than 80,000 patients from dozens of hospitals
+##### Performed data collection, cleaning, analysis, and reporting for numerous studies, which resulted in 12 peer-reviewed publications and 31 presentations since 2016
+##### Provided quality assurance monitoring and registry management for the Division of Trauma, which helped to reduce inappropriate triage by >30%
+##### Guided discussions with clinicians about study design and methodology to identify and reformulate otherwise infeasible projects
+##### Completed IRB study applications and ensured compliance with applicable regulations
+##### Obtained informed consent from patients enrolling in prospective studies
+##### Assisted in introducing new staff to standard operating policies and procedures  \
+
+
+
+```{r OU grad assistant}
+
+
+header = "Department of Psychology\nat Ohio University in Athens, Ohio"
+program = "Graduate Research and Teaching Assistant"
+dates = "August 2018 – August 2019"
+
+
+cbind(program, dates) %>% 
+	as_tibble() %>% flextable() %>%
+	set_header_labels(., program = header, dates = header) %>% 
+	merge_h(., part = "header") %>%
+	# theme_box() %>%
+	align(., align = "center", part = "header") %>%
+	align(., j=1, i=1, align = "left", part = "body") %>%
+	align(., j=2, i=1, align = "right", part = "body") %>%
+	bold(., part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., width = 3.333) %>%
+	border_remove()
+
+```
+##### Performed multiple literature searches and reviews to inform the theoretical and methodological development of new studies
+##### Independently managed the cleaning, analyzing, and reporting of study data
+##### Implemented procedures to reduce time needed to perform some analyses by >70%
+##### Selected by department chair to lead multiple undergraduate statistics lectures in my first year, which typically is not done until year three
+##### Graded and provided detailed feedback on undergraduate assignments
+##### Conducted pre-exam and as-needed statistics help sessions for undergraduate students   \
+
+
+
+
+
+
+# Professional Service  
+```{r professional service}
+# different because no merged and centered header row
+
+
+temp = 
+	rbind(
+		c("Student Caucus Grant Reviewer, Association for Psychological Science", 2018),
+		c("Member, Presidential Task Force on Empirically Supported Treatment Dissemination, Division 12 of the American Psychological Association", "2017 – present"),
+		c("Member, Terrorism Press Statement Writing Subcommittee, Anxiety and Depression Association of America", 2016),
+		c("Pro Tempore Chapter Secretary, Psi Chi", 2015)
+	) %>%
+	as_tibble()
+
+h1 = temp[1,1]
+h2 = temp[1,2]
+
+temp %>% 
+	slice(-1) %>% flextable() %>%
+	set_header_labels(., V1 = h1, V2 = h2) %>% 
+	align(., j=1, align = "left", part = "all") %>%
+	align(., j=2, align = "right", part = "all") %>%
+	valign(., j=1:2, valign = "top", part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., j=1, width = 5.08) %>%
+	width(., j=2, width = 1.58) %>%
+	border_remove()
+
+```
+
+\
+
+Ad hoc reviewer for: *Journal of the American Medical Association*, *Journal of Consulting and Clinical Psychology*, *Journal of Anxiety Disorders*, *Journal of Trauma and Acute Care Surgery*
+
+
+
+
+
+
+
+# Professional Affiliations and Memberships
+```{r memberships}
+# different because no merged and centered header row
+
+
+temp = 
+	rbind(
+		c("Member, Association for Psychological Science", "2017 – present"),
+		c("Member, American Psychological Association", "2017 – present"),
+		c("Lifetime member, Psi Chi", "2014 – present")
+	) %>%
+	as_tibble()
+
+h1 = temp[1,1]
+h2 = temp[1,2]
+
+temp %>% 
+	slice(-1) %>% flextable() %>%
+	set_header_labels(., V1 = h1, V2 = h2) %>% 
+	align(., j=1, align = "left", part = "all") %>%
+	align(., j=2, align = "right", part = "all") %>%
+	valign(., j=1:2, valign = "top", part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., j=1, width = 5.08) %>%
+	width(., j=2, width = 1.58) %>%
+	border_remove()
+
+```
+
+
+
+
+
+
+# Honors and Awards
+```{r honors}
+# different because no merged and centered header row
+
+
+temp = 
+	rbind(
+		c("Best Paper Award: American College of Surgeons, North Texas Chapter", "2017 – present"),
+		c("Performance Improvement Abstract Award: American College of Surgeons, Trauma Quality Improvement Committee", "November 2016"),
+		c("Service Excellence Award: Baylor University Medical Center", "May 2016"),
+		c("Psychology Department Award for Research: Hampden-Sydney College", "May 2015")
+	) %>%
+	as_tibble()
+
+h1 = temp[1,1]
+h2 = temp[1,2]
+
+temp %>% 
+	slice(-1) %>% flextable() %>%
+	set_header_labels(., V1 = h1, V2 = h2) %>% 
+	align(., j=1, align = "left", part = "all") %>%
+	align(., j=2, align = "right", part = "all") %>%
+	valign(., j=1:2, valign = "top", part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., j=1, width = 5.08) %>%
+	width(., j=2, width = 1.58) %>%
+	border_remove()
+
+```
+
+
+
+
+
+
+
+
+
+# Technical Skills
+```{r skills}
+# different because no merged and centered header row
+
+
+
+temp = 
+	rbind(
+		c("Statistics and data science", "• Sample size/power calculations • Bayesian methods\n• Generalized linear regression • Multi-level/mixed models\n• Non-parametric analyses • Decision trees • Data visualization"),
+		c("Statistical software", "• Highly proficient with R, JASP, SPSS, Excel, and\n Comprehensive Meta-Analysis\n• Familiar with SQL/PostgreSQL, Python, SAS, and Visual Basic"),
+		c("Survey software", "• Highly proficient with SurveyMonkey\n• Familiar with RedCap and Qualtrics"),
+		c("Electronic health records", "• Proficient with AllScripts and EPIC")
+	) %>%
+	as_tibble()
+
+h1 = temp[1,1]
+h2 = temp[1,2]
+
+temp %>% 
+	slice(-1) %>% flextable() %>%
+	set_header_labels(., V1 = h1, V2 = h2) %>% 
+	align(., j=1:2, align = "left", part = "all") %>%
+	valign(., j=1:2, valign = "top", part = "all") %>%
+	font(., fontname = "Times New Roman", part = "all") %>%
+	fontsize(., size=12, part="all") %>%
+	width(., j=1, width = 1.95) %>%
+	width(., j=2, width = 4.7) %>%
+	border_remove()
+
+```
+\
+**Published software:**
+Visual Basic code: Database clean up instructions and Excel VBA code. Contains instructions on how to use a Visual Basic code that cleans and reorganizes Excel databases from a multi-line format to a single-line format.  [doi.org/10.13140/RG.2.1.3847.8962](https://doi.org/10.13140/RG.2.1.3847.8962)  
+
+
+
+
+
+
+
+
+
+# Invited Lectures
+1. *Updates in defining major trauma, overtriage, and undertriage*. Delivered May 6, 2020 to the 22nd Annual Jacobi NYC Health and Hospitals Warren Wetzel, MD Trauma/Emergency Medicine Symposium.
+2. *A crash course in statistics and applications to the results section*. Delivered on October 10, 2017 to the Trauma & Critical Care Conference of the A. Webb Roberts Center for Continuing Medical Education at Baylor Scott & White Health.  \
+
+
+
+
+
+
+
+# Manuscripts Under Review or In Preparation
+1.	Avoiding Cribari Gridlock 3: Comparing the reliability and validity of triage rates from the Cribari Matrix Method versus the Standardized Triage Assessment Tool.  Planned submission to *Academic Emergency Medicine*.
+
+
+
+
+
+
+
+
+
+
+
+
+```{r publication setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, results='asis')
+library(tidyverse)
+library(lubridate)
+mdata = read.csv("pubs database.csv")
+
+
+mdata = mdata %>% mutate_all(as.character())
+
+mdata$date[which(mdata$date=="")] = NA
+mdata$date = as.Date(mdata$date,
+										 tryFormats = c("%m/%d/%y", 
+										 							 "%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+mdata$id = paste(mdata$type, mdata$order)
+
+
+temp = strsplit(mdata$authors_string, "; ")
+
+authors = tibble(id = rep(mdata$id, map(temp, length) %>% unlist()),
+								 last_name = temp %>% flatten() %>% unlist() %>% gsub("^([^, ]*), .*", "\\1", .),
+								 first_initial = temp %>% flatten() %>% unlist() %>% gsub("^([^, ]*), ([[:upper:]]).*", "\\2", .),
+								 middle_initial = temp %>% flatten() %>% unlist() %>% 
+								 	gsub("^([^, ]*), ([[:upper:]])\\.([[:upper:]])?\\.?", "\\3", .) %>%
+								 	gsub("^([[:upper:]]*).*", "\\1", .),
+								 suffix = temp %>% flatten() %>% unlist() %>% 
+								 	gsub("(.*?)([[:alnum:]]{2,})?$", "\\2", .)
+)
+
+rm(temp)
+
+
+authors$first_initial[authors$last_name=="Warren"  & authors$first_initial=="A" ] = "AM"
+authors$middle_initial[authors$last_name=="Warren" & authors$first_initial=="AM"] = ""
+
+authors$first_initial[authors$last_name == "The Trauma Measurement Workgroup."] = ""
+authors$middle_initial[authors$last_name == "The Trauma Measurement Workgroup."] = ""
+authors$last_name[authors$last_name == "The Trauma Measurement Workgroup."] = "The Trauma Measurement Workgroup"
+
+mdata = merge(mdata, authors) %>% 
+	nest(authors = c(last_name, first_initial, middle_initial, suffix))
+
+rm(authors)
+
+
+mdata$doi_link = ifelse(is.na(mdata$doi),
+												NA,
+												paste0("https://doi.org/", mdata$doi)
+												)
+
+
+
+ama_name = function(df){
+	
+	res = df %>% mutate(
+		ama_names = 
+			case_when(
+				#last name only
+				middle_initial == "" &  first_initial == "" & suffix == "" ~
+					as.character(paste0(last_name, ".")),
+				
+				
+				#no suffix
+				suffix == "" ~
+					paste0(last_name, " ", first_initial, middle_initial),
+				
+				#with suffix
+				suffix != "" ~
+					paste0(last_name, " ", first_initial, middle_initial, " ", suffix)
+			)
+	)	%>% select(ama_names) %>% as_vector() %>% unname()
+	
+	
+	res = case_when(
+		length(res) <= 6 ~ paste0(res, collapse = ", "),
+		length(res) > 6 ~ paste0(paste0(res[1:3], collapse = ", "), ", et al"), #AMA doesn't use period after et al
+		TRUE ~ NA_character_
+	)[1]
+	
+	res
+	
+}
+
+
+
+```
+
+
+
+# Peer-Reviewed Journal Publications
+```{r AMA journals}
+
+mdata$order = as.integer(mdata$order)
+mdata$type = tolower(mdata$type)
+journals = mdata[mdata$type == "journal",]
+journals = journals[order(journals$order, decreasing = T), ]
+
+
+ama_names = map(journals$authors, ama_name) %>% unlist()
+
+journal_abbr = read.csv(url("https://raw.githubusercontent.com/jrf1111/citations/master/AMA%20abbreviations.csv"))
+if(nrow(journal_abbr)<800 | ncol(journal_abbr)!=2){
+	journal_abbr = read_csv("AMA abbreviations.csv")	
+}
+
+journal_abbr$Abbreviation[is.na(journal_abbr$Abbreviation)] = ""
+journals$journal_abbr = journals$journal
+
+for(i in 1:nrow(journal_abbr)){
+	
+	#take care of potential spaces in words/terms to be abbreviated
+	word = if_else(grepl(" ", journal_abbr$Word[i]),
+								 true = journal_abbr$Word[i],
+								 false = paste0("\\<", journal_abbr$Word[i], "\\>")
+								 )
+	
+	abbr = journal_abbr$Abbreviation[i]
+	
+	journals$journal_abbr = gsub(word, abbr, journals$journal_abbr)
+}
+
+journals$journal_abbr = gsub("  ", " ", journals$journal_abbr)
+
+
+journals = journals %>% mutate(
+	vol_and_issue = 
+		case_when(
+			#no issue number
+			issue == "" ~ as.character(volume),
+			
+			#with an issue number
+			issue != "" ~ as.character(paste0(volume, "(", issue, ")"))
+		))
+
+
+
+
+# update to fix issues with "In Press" publications ----
+cat(paste0( paste0(1:length(ama_names), ". ") , 
+						ama_names, ". ", journals$title, ". *", journals$journal_abbr, "*;", 
+						journals$vol_and_issue, ":", journals$page_start, "-", journals$page_end, 
+						". [doi:", journals$doi, "](", journals$doi_link, ")" ), sep = "\n")
+
+
+
+```
+
+
+
+
+
+# Peer-Reviewed Oral Presentations
+```{r AMA podiums}
+
+podiums = mdata[mdata$type == "podium",]
+podiums = podiums[order(podiums$order, decreasing = T), ]
+
+podiums$date = as.Date(podiums$date,
+										 tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+
+podiums$doi[is.na(podiums$doi)] = ""
+podiums$doi[podiums$doi != ""] = paste0(" [doi:", podiums$doi[podiums$doi != ""], "](", 
+																				podiums$doi_link[podiums$doi != ""], ")" )
+
+ama_names = map(podiums$authors, ama_name) %>% unlist()
+
+
+
+cat(paste0( paste0(1:length(ama_names), ". ") , ama_names, 
+						". ", podiums$title, ". Oral presentation at: ", podiums$conference, "; ", 
+						format(podiums$date, "%B %d, %Y"), "; ", podiums$place, ".",
+						podiums$doi), sep = "\n")
+
+
+```
+
+
+
+
+
+# Peer-Reviewed Poster Presentations
+```{r AMA posters}
+
+posters = mdata[mdata$type == "poster",]
+posters = posters[order(posters$order, decreasing = T), ]
+posters$date = as.Date(posters$date,
+										 tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+
+
+posters$doi[is.na(posters$doi)] = ""
+posters$doi[posters$doi != ""] = paste0(" [doi:", posters$doi[posters$doi != ""], "](", 
+																				posters$doi_link[posters$doi != ""], ")" )
+
+
+ama_names = map(posters$authors, ama_name) %>% unlist()
+
+
+
+cat(paste0( paste0(1:length(ama_names), ". ") , ama_names, 
+						". ", posters$title, ". Poster presentation at: ", posters$conference, "; ", 
+						format(posters$date, "%B %d, %Y"), "; ", posters$place, ".", 
+						posters$doi), sep = "\n")
+
+
+```
+
+
+
+
+
+
+
+

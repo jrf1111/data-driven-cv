@@ -1,0 +1,211 @@
+---
+title: "Peer-Reviewed Works (APA format)"
+output:
+  html_document: default
+  word_document: default
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+---
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, results='asis')
+library(tidyverse)
+library(lubridate)
+mdata = read.csv("pubs database.csv")
+
+
+mdata = mdata %>% mutate_all(as.character())
+
+mdata$date = as.Date(mdata$date,
+										 tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+mdata$id = paste(mdata$type, mdata$order)
+
+
+temp = strsplit(mdata$authors_string, "; ")
+
+authors = tibble(id = rep(mdata$id, map(temp, length) %>% unlist()),
+								 last_name = temp %>% flatten() %>% unlist() %>% gsub("^([^, ]*), .*", "\\1", .),
+								 first_initial = temp %>% flatten() %>% unlist() %>% gsub("^([^, ]*), ([[:upper:]]).*", "\\2", .),
+								 middle_initial = temp %>% flatten() %>% unlist() %>% 
+								 	gsub("^([^, ]*), ([[:upper:]])\\.([[:upper:]])?\\.?", "\\3", .) %>%
+								 	gsub("^([[:upper:]]*).*", "\\1", .),
+								 suffix = temp %>% flatten() %>% unlist() %>% 
+								 	gsub("(.*?)([[:alnum:]]{2,})?$", "\\2", .)
+)
+
+rm(temp)
+
+
+
+authors$first_initial[authors$last_name=="Warren"  & authors$first_initial=="A" ] = "AM"
+authors$middle_initial[authors$last_name=="Warren" & authors$first_initial=="AM"] = ""
+
+authors$first_initial[authors$last_name == "The Trauma Measurement Workgroup."] = ""
+authors$middle_initial[authors$last_name == "The Trauma Measurement Workgroup."] = ""
+authors$last_name[authors$last_name == "The Trauma Measurement Workgroup."] = "The Trauma Measurement Workgroup"
+
+
+mdata = merge(mdata, authors) %>% 
+	nest(authors = c(last_name, first_initial, middle_initial, suffix))
+
+rm(authors)
+
+
+
+
+
+
+apa_name = function(df){
+	
+	res = df %>% mutate(
+		apa_names = 
+			case_when(
+				#last name only
+				middle_initial == "" &  first_initial == "" & suffix == "" ~
+					as.character(paste0(last_name, ".")),
+					
+				#no middle initial, no suffix
+				middle_initial == "" & suffix == "" ~
+					as.character(paste0(last_name, ", ", first_initial, ".")),
+				
+				#middle initial, no suffix
+				middle_initial != "" & suffix == "" ~ 
+					as.character(paste0(last_name, ", ", first_initial, ". ", middle_initial, ".")),
+				
+				#middle initial and suffix
+				middle_initial != "" & suffix != "" ~
+					as.character(paste0(last_name, ", ", first_initial, ". ", middle_initial, "., ", suffix, ".")),
+				
+				#no middle initial, with suffix
+				middle_initial == "" & suffix != "" ~
+					as.character(paste0(last_name, ", ", first_initial, "., ", suffix, "."))
+			)
+	)	%>% select(apa_names) %>% as_vector() %>% unname()
+	
+	
+	res = case_when(
+		length(res) == 1 ~ res,
+		length(res) == 2 ~ paste0(res, collapse = ", & "),
+		length(res) > 2 & length(res) < 21 ~ 
+			paste0(paste0(res[1:(length(res)-1)], collapse = ", "), paste0(", & ", res[length(res)])),
+		length(res) > 20 ~ 
+			paste0(paste0(res[1:19], collapse = ", "), paste0(", ... & ", res[length(res)])),
+		TRUE ~ NA_character_
+	)[1]
+	
+	res
+	
+}
+
+
+```
+
+
+
+# Peer-Reviewed Journal Publications
+```{r APA journals}
+
+journals = mdata[mdata$type == "journal",]
+journals = journals[order(journals$order, decreasing = T), ]
+
+
+apa_names = map(journals$authors, apa_name) %>% unlist()
+
+
+journals = journals %>% mutate(
+	vol_and_issue = 
+		case_when(
+			#no issue number
+			issue == "" ~ as.character(paste0("*",volume, "*s")),
+			
+			#with an issue number
+			issue != "" ~ as.character(paste0("*",volume, "*(", issue, ")"))
+		))
+
+
+
+cat(paste0( paste0(1:length(apa_names), ". ") , apa_names, 
+							" (", journals$year, "). ", journals$title, ". *", journals$journal, "*, ", 
+							journals$vol_and_issue, ", ", journals$page_start, "-", journals$page_end, 
+							". https://doi.org/", journals$doi), sep = "\n")
+
+
+```
+
+
+
+
+
+# Peer-Reviewed Oral Presentations
+```{r APA podiums}
+
+podiums = mdata[mdata$type == "podium",]
+podiums = podiums[order(podiums$order, decreasing = T), ]
+
+podiums$date = as.Date(podiums$date,
+										 tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+
+podiums$doi[is.na(podiums$doi)] = ""
+podiums$doi[podiums$doi != ""] = paste0(" https://doi.org/", podiums$doi[podiums$doi != ""])
+
+
+apa_names = map(podiums$authors, apa_name) %>% unlist()
+
+
+
+cat(paste0( paste0(1:length(apa_names), ". ") , apa_names, 
+						" (", podiums$year, "). ", podiums$title, ". ", podiums$conference, ". ", 
+						format(podiums$date, "%B %d, %Y"), ". ", podiums$place, ".",
+						podiums$doi
+						
+), sep = "\n")
+
+
+```
+
+
+
+
+
+# Peer-Reviewed Poster Presentations
+```{r APA posters}
+
+posters = mdata[mdata$type == "poster",]
+posters = posters[order(posters$order, decreasing = T), ]
+posters$date = as.Date(posters$date,
+										 tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+
+posters$doi[is.na(posters$doi)] = ""
+posters$doi[posters$doi != ""] = paste0(" https://doi.org/", posters$doi[posters$doi != ""])
+
+
+apa_names = map(posters$authors, apa_name) %>% unlist()
+
+
+
+cat(paste0( paste0(1:length(apa_names), ". ") , apa_names, 
+						" (", posters$year, "). ", posters$title, ". ", posters$conference, ". ",
+						format(posters$date, "%B %d, %Y"), ". ", posters$place, ".",
+						posters$doi
+						
+), sep = "\n")
+
+
+```
+
+
+
+
+
+
+
+
+

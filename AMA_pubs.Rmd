@@ -1,0 +1,217 @@
+---
+title: "Peer-Reviewed Works (AMA format)"
+output:
+  html_document: default
+  word_document: default
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, results='asis')
+library(tidyverse)
+library(lubridate)
+mdata = read.csv("pubs database.csv")
+
+
+mdata = mdata %>% mutate_all(as.character())
+
+mdata$date = as.Date(mdata$date,
+										 tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+mdata$id = paste(mdata$type, mdata$order)
+
+
+temp = strsplit(mdata$authors_string, "; ")
+
+authors = tibble(id = rep(mdata$id, map(temp, length) %>% unlist()),
+								 last_name = temp %>% flatten() %>% unlist() %>% gsub("^([^, ]*), .*", "\\1", .),
+								 first_initial = temp %>% flatten() %>% unlist() %>% gsub("^([^, ]*), ([[:upper:]]).*", "\\2", .),
+								 middle_initial = temp %>% flatten() %>% unlist() %>% 
+								 	gsub("^([^, ]*), ([[:upper:]])\\.([[:upper:]])?\\.?", "\\3", .) %>%
+								 	gsub("^([[:upper:]]*).*", "\\1", .),
+								 suffix = temp %>% flatten() %>% unlist() %>% 
+								 	gsub("(.*?)([[:alnum:]]{2,})?$", "\\2", .)
+)
+
+rm(temp)
+
+
+authors$first_initial[authors$last_name=="Warren"  & authors$first_initial=="A" ] = "AM"
+authors$middle_initial[authors$last_name=="Warren" & authors$first_initial=="AM"] = ""
+
+authors$first_initial[authors$last_name == "The Trauma Measurement Workgroup."] = ""
+authors$middle_initial[authors$last_name == "The Trauma Measurement Workgroup."] = ""
+authors$last_name[authors$last_name == "The Trauma Measurement Workgroup."] = "The Trauma Measurement Workgroup"
+
+mdata = merge(mdata, authors) %>% 
+	nest(authors = c(last_name, first_initial, middle_initial, suffix))
+
+rm(authors)
+
+
+mdata$doi_link = ifelse(is.na(mdata$doi),
+												NA,
+												paste0("https://doi.org/", mdata$doi)
+												)
+
+
+
+
+
+
+ama_name = function(df){
+	
+	res = df %>% mutate(
+		ama_names = 
+			case_when(
+				#last name only
+				middle_initial == "" &  first_initial == "" & suffix == "" ~
+					as.character(paste0(last_name, ".")),
+				
+				
+				#no suffix
+				suffix == "" ~
+					paste0(last_name, " ", first_initial, middle_initial),
+				
+				#with suffix
+				suffix != "" ~
+					paste0(last_name, " ", first_initial, middle_initial, " ", suffix)
+			)
+	)	%>% select(ama_names) %>% as_vector() %>% unname()
+	
+	
+	res = case_when(
+		length(res) <= 6 ~ paste0(res, collapse = ", "),
+		length(res) > 6 ~ paste0(paste0(res[1:3], collapse = ", "), ", et al"), #AMA doesn't use period after et al
+		TRUE ~ NA_character_
+	)[1]
+	
+	res
+	
+}
+
+
+
+```
+
+
+
+
+
+# Peer-Reviewed Journal Publications
+```{r AMA journals}
+
+journals = mdata[mdata$type == "journal",]
+journals = journals[order(journals$order, decreasing = T), ]
+
+
+ama_names = map(journals$authors, ama_name) %>% unlist()
+
+journal_abbr = read.csv(url("https://raw.githubusercontent.com/jrf1111/citations/master/AMA%20abbreviations.csv"))
+if(nrow(journal_abbr)<800 | ncol(journal_abbr)!=2){
+	journal_abbr = read_csv("AMA abbreviations.csv")	
+}
+
+journal_abbr$Abbreviation[is.na(journal_abbr$Abbreviation)] = ""
+journals$journal_abbr = journals$journal
+
+for(i in 1:nrow(journal_abbr)){
+	
+	#take care of potential spaces in words/terms to be abbreviated
+	word = if_else(grepl(" ", journal_abbr$Word[i]),
+								 true = journal_abbr$Word[i],
+								 false = paste0("\\<", journal_abbr$Word[i], "\\>")
+								 )
+	
+	abbr = journal_abbr$Abbreviation[i]
+	
+	journals$journal_abbr = gsub(word, abbr, journals$journal_abbr)
+}
+
+journals$journal_abbr = gsub("  ", " ", journals$journal_abbr)
+
+
+journals = journals %>% mutate(
+	vol_and_issue = 
+		case_when(
+			#no issue number
+			issue == "" ~ as.character(volume),
+			
+			#with an issue number
+			issue != "" ~ as.character(paste0(volume, "(", issue, ")"))
+		))
+
+
+
+cat(paste0( paste0(1:length(ama_names), ". ") , 
+						ama_names, ". ", journals$title, ". *", journals$journal_abbr, "*;", 
+						journals$vol_and_issue, ":", journals$page_start, "-", journals$page_end, 
+						". [doi:", journals$doi, "](", journals$doi_link, ")" ), sep = "\n")
+
+
+
+```
+
+
+
+
+
+# Peer-Reviewed Oral Presentations
+```{r AMA podiums}
+
+podiums = mdata[mdata$type == "podium",]
+podiums = podiums[order(podiums$order, decreasing = T), ]
+
+podiums$date = as.Date(podiums$date,
+										 tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+
+podiums$doi[is.na(podiums$doi)] = ""
+podiums$doi[podiums$doi != ""] = paste0(" [doi:", podiums$doi[podiums$doi != ""], "](", 
+																				podiums$doi_link[podiums$doi != ""], ")" )
+
+ama_names = map(podiums$authors, ama_name) %>% unlist()
+
+
+
+cat(paste0( paste0(1:length(ama_names), ". ") , ama_names, 
+						". ", podiums$title, ". Oral presentation at: ", podiums$conference, "; ", 
+						format(podiums$date, "%B %d, %Y"), "; ", podiums$place, ".",
+						podiums$doi), sep = "\n")
+
+
+```
+
+
+
+
+
+# Peer-Reviewed Poster Presentations
+```{r AMA posters}
+
+posters = mdata[mdata$type == "poster",]
+posters = posters[order(posters$order, decreasing = T), ]
+posters$date = as.Date(posters$date,
+										 tryFormats = c("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y",
+										 							 "%y-%m-%d", "%y/%m/%d", "%d-%m-%y", "%d/%m/%y"))
+
+
+
+posters$doi[is.na(posters$doi)] = ""
+posters$doi[posters$doi != ""] = paste0(" [doi:", posters$doi[posters$doi != ""], "](", 
+																				posters$doi_link[posters$doi != ""], ")" )
+
+
+ama_names = map(posters$authors, ama_name) %>% unlist()
+
+
+
+cat(paste0( paste0(1:length(ama_names), ". ") , ama_names, 
+						". ", posters$title, ". Poster presentation at: ", posters$conference, "; ", 
+						format(posters$date, "%B %d, %Y"), "; ", posters$place, ".", 
+						posters$doi), sep = "\n")
+
+
+```
