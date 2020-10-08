@@ -132,9 +132,10 @@ cbind(program, dates) %>%
 	border_remove()
 
 ```
+##### Selected by Cheif Technology Officer to spearhead district-wide data reconsolidation and data governance efforts
 ##### Review proposed studies for feasibility, scientific merit, ethical considerations, and regulatory compliance as an alternate member of the institutional review board
-##### Produce descriptive statistics, visualizations, longitudinal/predictive analyses, and other reports on student outcomes, job market conditions, industry trends, and demographic/workforce information
-##### Work with large, complex datasets, including importing/exporting and merging from various sources, cleaning data files and maintaining historical records  \
+##### Produce descriptive statistics, visualizations, longitudinal/predictive analyses, and other reports on student outcomes, industry trends, and demographic/workforce information
+##### Work with large, complex datasets, including importing/exporting and merging from various sources, cleaning data files, and maintaining historical records  \
 
 
 
@@ -315,7 +316,7 @@ temp %>%
 
 temp = 
 	rbind(
-		c("Best Paper Award: American College of Surgeons, North Texas Chapter", "2017 – present"),
+		c("Best Paper Award: American College of Surgeons, North Texas Chapter", "February 2017"),
 		c("Performance Improvement Abstract Award: American College of Surgeons, Trauma Quality Improvement Committee", "November 2016"),
 		c("Service Excellence Award: Baylor University Medical Center", "May 2016"),
 		c("Psychology Department Award for Research: Hampden-Sydney College", "May 2015")
