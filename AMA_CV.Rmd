@@ -486,9 +486,12 @@ ama_name = function(df){
 			)
 	)	%>% select(ama_names) %>% as_vector() %>% unname()
 	
+	#where am I in author order?
+	my_pos = which( grepl("Roden-Foreman J", res) )
 	
 	res = case_when(
 		length(res) <= 6 ~ paste0(res, collapse = ", "),
+		length(res) > 6 & my_pos > 3 ~ paste0(paste0(res[1:my_pos], collapse = ", "), ", et al"), #AMA doesn't use period after et al
 		length(res) > 6 ~ paste0(paste0(res[1:3], collapse = ", "), ", et al"), #AMA doesn't use period after et al
 		TRUE ~ NA_character_
 	)[1]
@@ -514,10 +517,15 @@ journals = journals[order(journals$order, decreasing = T), ]
 
 ama_names = map(journals$authors, ama_name) %>% unlist()
 
-journal_abbr = read.csv(url("https://raw.githubusercontent.com/jrf1111/citations/master/AMA%20abbreviations.csv"))
-if(nrow(journal_abbr)<800 | ncol(journal_abbr)!=2){
-	journal_abbr = read_csv("AMA abbreviations.csv")	
-}
+
+
+#bold my name
+ama_names = gsub("\\<Roden-Foreman JW\\>", "**Roden-Foreman JW**", ama_names)
+ama_names = gsub("\\<Roden-Foreman J\\>", "**Roden-Foreman J**", ama_names)
+
+
+
+journal_abbr = suppressMessages(read_csv("AMA abbreviations.csv"))
 
 journal_abbr$Abbreviation[is.na(journal_abbr$Abbreviation)] = ""
 journals$journal_abbr = journals$journal
@@ -541,21 +549,37 @@ journals$journal_abbr = gsub("  ", " ", journals$journal_abbr)
 journals = journals %>% mutate(
 	vol_and_issue = 
 		case_when(
+			
+			#in press
+			(issue == "" | is.na(issue)) & (volume == "" | is.na(volume)) ~ "(In Press)",
+			
+			
 			#no issue number
-			issue == "" ~ as.character(volume),
+			issue == "" | is.na(issue) ~ as.character(volume),
 			
 			#with an issue number
 			issue != "" ~ as.character(paste0(volume, "(", issue, ")"))
 		))
 
 
-
-
-# update to fix issues with "In Press" publications ----
-cat(paste0( paste0(1:length(ama_names), ". ") , 
-						ama_names, ". ", journals$title, ". *", journals$journal_abbr, "*;", 
-						journals$vol_and_issue, ":", journals$page_start, "-", journals$page_end, 
-						". [doi:", journals$doi, "](", journals$doi_link, ")" ), sep = "\n")
+journals$out = case_when(
+	journals$vol_and_issue != "(In Press)" ~ paste0(ama_names, ". ", 
+																									journals$title, 
+																									". *", journals$journal_abbr, "*;", 
+																									journals$vol_and_issue, ":", 
+																									journals$page_start, "-", journals$page_end, 
+																									". [doi:", journals$doi, "](", journals$doi_link, ")" ),
+	
+	journals$vol_and_issue == "(In Press)" ~ paste0(ama_names, ". ", 
+																									journals$title, 
+																									". *", journals$journal_abbr, "* ", 
+																									journals$vol_and_issue,
+																									". [doi:", journals$doi, "](", journals$doi_link, ")" )
+	
+)
+	
+	
+cat(paste0( paste0(1:length(ama_names), ". ") , journals$out) , sep = "\n")
 
 
 
@@ -582,6 +606,9 @@ podiums$doi[podiums$doi != ""] = paste0(" [doi:", podiums$doi[podiums$doi != ""]
 
 ama_names = map(podiums$authors, ama_name) %>% unlist()
 
+#bold my name
+ama_names = gsub("\\<Roden-Foreman JW\\>", "**Roden-Foreman JW**", ama_names)
+ama_names = gsub("\\<Roden-Foreman J\\>", "**Roden-Foreman J**", ama_names)
 
 
 cat(paste0( paste0(1:length(ama_names), ". ") , ama_names, 
@@ -614,6 +641,9 @@ posters$doi[posters$doi != ""] = paste0(" [doi:", posters$doi[posters$doi != ""]
 
 ama_names = map(posters$authors, ama_name) %>% unlist()
 
+#bold my name
+ama_names = gsub("\\<Roden-Foreman JW\\>", "**Roden-Foreman JW**", ama_names)
+ama_names = gsub("\\<Roden-Foreman J\\>", "**Roden-Foreman J**", ama_names)
 
 
 cat(paste0( paste0(1:length(ama_names), ". ") , ama_names, 
