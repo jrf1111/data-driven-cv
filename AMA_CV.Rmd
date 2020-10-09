@@ -241,7 +241,7 @@ cbind(program, dates) %>%
 temp = 
 	rbind(
 		c("Student Caucus Grant Reviewer, Association for Psychological Science", 2018),
-		c("Member, Presidential Task Force on Empirically Supported Treatment Dissemination, Division 12 of the American Psychological Association", "2017 – present"),
+		c("Member, Presidential Task Force on Empirically Supported Treatment Dissemination, Division 12 of the American Psychological Association", "2017 – 2019"),
 		c("Member, Terrorism Press Statement Writing Subcommittee, Anxiety and Depression Association of America", 2016),
 		c("Pro Tempore Chapter Secretary, Psi Chi", 2015)
 	) %>%
